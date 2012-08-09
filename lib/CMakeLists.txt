@@ -1,0 +1,1 @@
+add_library(lib_rklogger serialport logger protocol_comlynx)
