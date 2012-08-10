@@ -26,6 +26,11 @@
 #include "serialport.H"
 #include "protocol_comlynx.H"
 
+#define SERIAL_DEVICE "/dev/ttyUSB0"
+#define NETWORK1 0x32
+#define NETWORK2 0x32
+#define HOST1 0x01
+#define HOST2 0x02
 
 namespace RK {
 }
@@ -36,14 +41,14 @@ int main (int argc, char** argv)
         exit(EXIT_FAILURE);
     }
     {
-    RK::Config config ("/dev/ttyUSB0");
+    RK::Config config (SERIAL_DEVICE);
     RK::SerialPort port (config);
 
     RK::ComLynx::Protocol protocol (port);
 
     if (argc == 1) {
-        protocol.embedded_can (0x32, 0x31);
-        protocol.embedded_can (0x32, 0x4C);
+        protocol.embedded_can (NETWORK1, HOST1);
+        protocol.embedded_can (NETWORK2, HOST2);
     } else if (argc == 3) {
        uint32_t network;
        sscanf (argv[1], "%X", &network);
