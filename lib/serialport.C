@@ -37,7 +37,9 @@ extern "C" {
 namespace RK {
 SerialPort::SerialPort (Config& config_) :
     _config(config_),
-    _port (-1)
+    _port (-1),
+    _port_config (),
+    _curr_config ()
 {
     open_port ();
 }
