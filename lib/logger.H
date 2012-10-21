@@ -35,7 +35,7 @@ class Logger {
 class DirectLogger : public Logger {
     public:
     virtual ~DirectLogger();
-    virtual DirectLogger& start_host (uint8_t network, uint8_t host) {return *this;}
+    virtual DirectLogger& start_host (uint8_t, uint8_t) {return *this;}
     virtual DirectLogger& log_val    (uint8_t format, uint32_t val);
     virtual DirectLogger& log_err    (void);
     virtual DirectLogger& end_host   (void) {return *this;}
