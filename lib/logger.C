@@ -20,6 +20,10 @@
 #include <iostream>
 #include "logger.H"
 
+DirectLogger::~DirectLogger ()
+{
+}
+
 DirectLogger&
 DirectLogger::log_val (uint8_t format, uint32_t val)
 {

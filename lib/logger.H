@@ -17,12 +17,14 @@
 ** along with rklogger.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#pragma once
 #include <string>
 #include "common.H"
 
 
 class Logger {
     public:
+    virtual ~Logger () {};
     virtual Logger& start_host (uint8_t network, uint8_t host) = 0;
     virtual Logger& log_val    (uint8_t format, uint32_t val) = 0;
     virtual Logger& log_err    (void) = 0;
@@ -32,6 +34,7 @@ class Logger {
 
 class DirectLogger : public Logger {
     public:
+    virtual ~DirectLogger();
     virtual DirectLogger& start_host (uint8_t network, uint8_t host) {return *this;}
     virtual DirectLogger& log_val    (uint8_t format, uint32_t val);
     virtual DirectLogger& log_err    (void);
