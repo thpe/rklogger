@@ -37,7 +37,7 @@ namespace RK {
 
 int main (int argc, char** argv)
 {
-    if (argc != 1 and argc != 5 and argc != 3) {
+    if (argc != 1 and argc != 6 and argc != 3) {
         exit(EXIT_FAILURE);
     }
     {
@@ -57,7 +57,7 @@ int main (int argc, char** argv)
        if (not protocol.ping (network, host)) {
            exit(EXIT_FAILURE);
        }
-    } else if (argc == 5) {
+    } else if (argc == 6) {
        uint32_t network;
        sscanf (argv[1], "%X", &network);
        uint32_t host;
@@ -66,7 +66,9 @@ int main (int argc, char** argv)
        sscanf (argv[3], "%X", &parm_idx);
        uint32_t parm_subidx;
        sscanf (argv[4], "%X", &parm_subidx);
-       return protocol.embedded_can (network, host, parm_idx, parm_subidx);
+       uint32_t parm_modidx;
+       sscanf (argv[5], "%X", &parm_modidx);
+       return protocol.embedded_can (network, host, parm_idx, parm_subidx, parm_modidx);
     }
     }
 

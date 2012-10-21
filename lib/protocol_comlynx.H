@@ -40,9 +40,9 @@ class Protocol {
     bool node_information (uint8_t network, uint8_t address);
     bool embedded_can     (uint8_t network, uint8_t address);
     bool embedded_can     (uint8_t network, uint8_t address,
-                           uint8_t index,   uint8_t subindex);
+                           uint8_t index,   uint8_t subindex, uint8_t modindex);
     bool embedded_can     (uint8_t network, uint8_t address,
-                           uint8_t index,   uint8_t subindex,
+                           uint8_t index,   uint8_t subindex, uint8_t modindex,
                            uint8_t& format, uint32_t& val);
     private:
     typedef struct frame_start_mask {

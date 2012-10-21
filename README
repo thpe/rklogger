@@ -1,4 +1,4 @@
-Copyright 2012 Thomas Petig <tpetig@uni-bonn.de>
+Copyright 2012 Thomas Petig <thomas@petig.eu>
 Danfoss, TripleLynx and ComLynx are trademarks of Danfoss
 
 
@@ -22,7 +22,7 @@ to build the project.
 Usage:
 
 To read a parameter:
-./rklogger <network> <node> <param_idx> <param_subidx>
+./rklogger <network> <node> <param_idx> <param_subidx> <param_modulidx>
 
 To ping a inverter:
 ./rklogger <network> <node>

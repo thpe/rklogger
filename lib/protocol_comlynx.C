@@ -163,19 +163,19 @@ Protocol::embedded_can (uint8_t network, uint8_t address)
     strftime(s, MAXLEN, "%Y/%m/%d %T", localtime(&t));
     std::cout << "<TR><TH align=\"right\">" << s << "</TH>";
 
-    if (embedded_can(network, address, 0x1E, 0x14, format, val)) {
+    if (embedded_can(network, address, 0x1E, 0x14, 0x08, format, val)) {
         printf("<TH align=\"right\"> %s</TH>", hardware_type_ids[val]);
     }
-    if (embedded_can(network, address, 0x02, 0x46, format, val)) {
+    if (embedded_can(network, address, 0x02, 0x46, 0x08, format, val)) {
         printf("<TH align=\"right\"> %dW</TH>", val);
     }
-    if (embedded_can(network, address, 0x02, 0x4A, format, val)) {
+    if (embedded_can(network, address, 0x02, 0x4A, 0x08, format, val)) {
         printf("<TH align=\"right\"> %.1fkWh</TH>", (double)val/1000);
     }
-    if (embedded_can(network, address, 0x01, 0x02, format, val)) {
+    if (embedded_can(network, address, 0x01, 0x02, 0x08, format, val)) {
         printf("<TH align=\"right\"> %.1fkWh</TH>", (double)val/1000);
     }
-    if (embedded_can(network, address, 0x0A, 0x02, format, val)) {
+    if (embedded_can(network, address, 0x0A, 0x02, 0x08, format, val)) {
         int r = (tlx_op_mode_id(val) == 4) or
                 (tlx_op_mode_id(val) == 1) or
                 (tlx_op_mode_id(val) == 2) ? 0xFF : 0;
@@ -189,11 +189,11 @@ Protocol::embedded_can (uint8_t network, uint8_t address)
 }
 bool
 Protocol::embedded_can (uint8_t  network, uint8_t   address,
-                        uint8_t  index,   uint8_t   subindex)
+                        uint8_t  index,   uint8_t   subindex, uint8_t modindex)
 {
     uint8_t format;
     uint32_t val;
-    if (embedded_can (network, address, index, subindex, format, val)) {
+    if (embedded_can (network, address, index, subindex, modindex, format, val)) {
         DirectLogger log;
         log.start_host(network, address).log_val(format, val).end_host();
         return true;
@@ -206,7 +206,7 @@ Protocol::embedded_can (uint8_t  network, uint8_t   address,
 
 bool
 Protocol::embedded_can (uint8_t  network, uint8_t   address,
-                        uint8_t  index,   uint8_t   subindex,
+                        uint8_t  index,   uint8_t   subindex, uint8_t modindex,
                         uint8_t& format,  uint32_t& val)
 {
     uint8_t msg[maxmsgsize];
@@ -219,7 +219,7 @@ Protocol::embedded_can (uint8_t  network, uint8_t   address,
 
     ecd->doc_no        = 0xC8;
     ecd->unused        = 0x00;
-    ecd->dest_mod_id   = 0x08;
+    ecd->dest_mod_id   = modindex;
     ecd->src_mod_id    = 0xD;
     ecd->param_idx     = index;
     ecd->param_sub_idx = subindex;
