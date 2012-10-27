@@ -3,30 +3,51 @@ Danfoss, TripleLynx, TLX, UniLynx, ULX and ComLynx are trademarks of Danfoss
 
 
 Introduction:
+
 rklogger is a command line program for reading the parameters out of
 Danfoss inverters. This project is licensed under the GPLv3. It is testet with
-TLX and ULX inverters.
+TLX and ULX inverters together with Debian stable (x86, 32Bit).
 
 
 Build:
-Recent versions of cmake, gnumake and g++ are required.
+
+Recent versions of:
+cmake, 
+make,
+g++ and
+libboost-program-options-dev 
+are required.
 
 Please type within the project root directory:
 
 cmake .
 make
 
-to build the project.
+to build the project. Type 
+
+cmake -DCMAKE_BUILD_TYPE=Release .
+make
+
+if you want to compile with additional debug output.
 
 
 
 Usage:
+
+You find the binary in 
+./src/bin
+
+Go into this directory for the following examples, or call the binary from
+this path.
 
 To read a parameter:
 ./rklogger <network> <node> <param_idx> <param_subidx> <param_modulidx>
 
 To ping a inverter:
 ./rklogger <network> <node>
+
+To get information on additional paramters:
+./rklogger --help
 
 For details regarding param_idx, param_subidx and param_modulidx please refer to the ComLynx
 protocol specification provided by Danfoss.
