@@ -21,6 +21,8 @@
 #include <cstdio>
 #include <iostream>
 #include <string>
+#include <vector>
+#include <sstream>
 #include <boost/program_options.hpp>
 
 
@@ -40,20 +42,42 @@ namespace RK {
 int main (int argc, char** argv)
 {
     std::string device(SERIAL_DEVICE);
+    std::vector< int > parameter ;
     try {
         boost::program_options::options_description desc("Allowed options");
+        std::vector< std::string > string_parm ;
         desc.add_options()
             ("help,h", "produce help message")
             ("device,d", boost::program_options::value<std::string>(&device)->default_value(SERIAL_DEVICE), "change the communication device")
+            ("param", boost::program_options::value< std::vector<std::string> >(&string_parm), "<network> <node> <param_idx> <param_subidx> <param_modulidx>")
         ;
 
+
+        boost::program_options::positional_options_description p;
+        p.add("param", -1);
+
+
+
         boost::program_options::variables_map vm;
-        boost::program_options::store(boost::program_options::parse_command_line(argc, argv, desc), vm);
+        boost::program_options::store(
+            boost::program_options::command_line_parser(argc, argv)
+            .options(desc)
+            .positional(p)
+            .run(), vm);
         boost::program_options::notify(vm);
 
         if (vm.count("help")) {
             std::cout << desc << "\n";
             return 1;
+        }
+        if (vm.count("param")) {
+            for (size_t i = 0; i < string_parm.size(); ++i) {
+                std::stringstream interpreter;
+                interpreter << std::hex << string_parm[i];
+                int var;
+                interpreter >> var;
+                parameter.push_back(var);
+            }
         }
     }
     catch(std::exception& e) {
@@ -64,7 +88,9 @@ int main (int argc, char** argv)
         std::cerr << "Exception of unknown type!\n";
     }
 
-    if (argc != 1 and argc != 6 and argc != 3) {
+    size_t num_parm = parameter.size();
+    if (num_parm != 5 and num_parm != 2) {
+        std::cerr << "Invalid number of arguments (should be 2 or 5): " << num_parm << std::endl;
         exit(EXIT_FAILURE);
     }
 
@@ -74,29 +100,16 @@ int main (int argc, char** argv)
 
     RK::ComLynx::Protocol protocol (port);
 
-    if (argc == 1) {
-        protocol.embedded_can (NETWORK1, HOST1);
-        protocol.embedded_can (NETWORK2, HOST2);
-    } else if (argc == 3) {
-       uint32_t network;
-       sscanf (argv[1], "%X", &network);
-       uint32_t host;
-       sscanf (argv[2], "%X", &host);
-       if (not protocol.ping (network, host)) {
+    if (num_parm == 2) {
+       if (not protocol.ping (parameter[0], parameter[1])) {
            exit(EXIT_FAILURE);
        }
-    } else if (argc == 6) {
-       uint32_t network;
-       sscanf (argv[1], "%X", &network);
-       uint32_t host;
-       sscanf (argv[2], "%X", &host);
-       uint32_t parm_idx;
-       sscanf (argv[3], "%X", &parm_idx);
-       uint32_t parm_subidx;
-       sscanf (argv[4], "%X", &parm_subidx);
-       uint32_t parm_modidx;
-       sscanf (argv[5], "%X", &parm_modidx);
-       return protocol.embedded_can (network, host, parm_idx, parm_subidx, parm_modidx);
+    } else if (num_parm == 5) {
+       return protocol.embedded_can (parameter[0],
+                                     parameter[1],
+                                     parameter[2],
+                                     parameter[3],
+                                     parameter[4]);
     }
     }
 
