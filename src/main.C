@@ -20,6 +20,8 @@
 #include <cstdlib>
 #include <cstdio>
 #include <iostream>
+#include <string>
+#include <boost/program_options.hpp>
 
 
 #include "config.H"
@@ -37,11 +39,37 @@ namespace RK {
 
 int main (int argc, char** argv)
 {
+    std::string device(SERIAL_DEVICE);
+    try {
+        boost::program_options::options_description desc("Allowed options");
+        desc.add_options()
+            ("help,h", "produce help message")
+            ("device,d", boost::program_options::value<std::string>(&device)->default_value(SERIAL_DEVICE), "produce help message")
+        ;
+
+        boost::program_options::variables_map vm;
+        boost::program_options::store(boost::program_options::parse_command_line(argc, argv, desc), vm);
+        boost::program_options::notify(vm);
+
+        if (vm.count("help")) {
+            std::cout << desc << "\n";
+            return 1;
+        }
+    }
+    catch(std::exception& e) {
+        std::cerr << "error: " << e.what() << "\n";
+        return 1;
+    }
+    catch(...) {
+        std::cerr << "Exception of unknown type!\n";
+    }
+
     if (argc != 1 and argc != 6 and argc != 3) {
         exit(EXIT_FAILURE);
     }
+
     {
-    RK::Config config (SERIAL_DEVICE);
+    RK::Config config (device);
     RK::SerialPort port (config);
 
     RK::ComLynx::Protocol protocol (port);
