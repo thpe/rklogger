@@ -36,25 +36,29 @@ DirectLogger::log_val (uint8_t format, uint32_t val)
         std::cout << *ptr;
         break;
     case 0x02:
-        std::cout << *reinterpret_cast< int8_t* > (ptr);
+        val = 0x80 & val ? 0xFFFFFF00|val : val;
+        std::cout << val;
         break;
     case 0x03:
-        std::cout << *reinterpret_cast< int16_t* > (ptr);
+        val = 0x8000 & val ? 0xFFFF0000|val : val;
+        std::cout << val;
         break;
     case 0x04:
-        std::cout << *reinterpret_cast< int32_t* > (ptr);
+        std::cout << (int32_t) (val);
         break;
     case 0x05:
-        std::cout << *reinterpret_cast< uint8_t* > (ptr);
+        val = 0x80 & val ? 0xFFFFFF00|val : val;
+        std::cout << val;
         break;
     case 0x06:
-        std::cout << *reinterpret_cast< uint16_t* > (ptr);
+        val = 0x8000 & val ? 0xFFFF0000|val : val;
+        std::cout << val;
         break;
     case 0x07:
         std::cout << val;
         break;
     case 0x08:
-        std::cout << *reinterpret_cast< float* > (ptr);
+        std::cout << (float) (val);
         break;
     case 0x09:
     default:
