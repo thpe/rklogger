@@ -152,42 +152,6 @@ Protocol::node_information (uint8_t network, uint8_t address)
 }
 
 bool
-Protocol::embedded_can (uint8_t network, uint8_t address)
-{
-    uint8_t format;
-    uint32_t val;
-
-    const int MAXLEN = 80;
-    char s[MAXLEN];
-    time_t t = time(0);
-    strftime(s, MAXLEN, "%Y/%m/%d %T", localtime(&t));
-    std::cout << "<TR><TH align=\"right\">" << s << "</TH>";
-
-    if (embedded_can(network, address, 0x1E, 0x14, 0x08, format, val)) {
-        printf("<TH align=\"right\"> %s</TH>", hardware_type_ids[val]);
-    }
-    if (embedded_can(network, address, 0x02, 0x46, 0x08, format, val)) {
-        printf("<TH align=\"right\"> %dW</TH>", val);
-    }
-    if (embedded_can(network, address, 0x02, 0x4A, 0x08, format, val)) {
-        printf("<TH align=\"right\"> %.1fkWh</TH>", (double)val/1000);
-    }
-    if (embedded_can(network, address, 0x01, 0x02, 0x08, format, val)) {
-        printf("<TH align=\"right\"> %.1fkWh</TH>", (double)val/1000);
-    }
-    if (embedded_can(network, address, 0x0A, 0x02, 0x08, format, val)) {
-        int r = (tlx_op_mode_id(val) == 4) or
-                (tlx_op_mode_id(val) == 1) or
-                (tlx_op_mode_id(val) == 2) ? 0xFF : 0;
-        int g = (tlx_op_mode_id(val) == 3) or
-                (tlx_op_mode_id(val) == 1) or
-                (tlx_op_mode_id(val) == 2) ? 0xFF : 0;
-        int b = (tlx_op_mode_id(val) == 0) ? 0xFF : 0;
-        printf("<TH bgcolor=\"#%.2X%.2X%.2X\">%s</TH></TR>\n", r,g,b, tlx_op_modes[tlx_op_mode_id(val)]);
-    }
-    return false;
-}
-bool
 Protocol::embedded_can (uint8_t  network, uint8_t   address,
                         uint8_t  index,   uint8_t   subindex, uint8_t modindex)
 {
