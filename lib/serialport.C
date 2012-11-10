@@ -41,7 +41,6 @@ SerialPort::SerialPort (Config& config_) :
     _port_config (),
     _curr_config ()
 {
-    open_port ();
 }
 SerialPort::~SerialPort (void)
 {
@@ -120,13 +119,14 @@ int SerialPort::read_data (uint8_t *data, size_t length)
     return cnt;
 }
 
-void SerialPort::open_port (void)
+bool SerialPort::open_port (void)
 {
+    if (_port != -1) {
+        return true;
+    }
     _port = open (_config.portname().c_str(), O_RDWR | O_NOCTTY| O_NDELAY);
     if (_port == -1) {
-        std::cout << "[EE] opening the port: "<< _config.portname() <<" failed\n";
-        perror("");
-        exit(EXIT_FAILURE);
+        return false; //TODO: throw...
     }
     ioctl(_port, TIOCEXCL, NULL);
     if (tcgetattr (_port, &_port_config) == -1) {
@@ -135,14 +135,17 @@ void SerialPort::open_port (void)
     }
     configure_port();
     tcflush(_port,TCIOFLUSH);
+    return true;
 }
 void SerialPort::close_port (void)
 {
-    if (tcsetattr (_port, TCSANOW, &_port_config) == -1) {
-        std::cout << "[EE]: unable to write backup config" << std::endl;
+    if (_port != -1) {
+        if (tcsetattr (_port, TCSANOW, &_port_config) == -1) {
+            std::cout << "[EE]: unable to write backup config" << std::endl;
+        }
+        ioctl(_port, TIOCNXCL, NULL);
+        close (_port);
     }
-    ioctl(_port, TIOCNXCL, NULL);
-    close (_port);
 }
 
 void SerialPort::configure_port (void)

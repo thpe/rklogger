@@ -35,10 +35,10 @@ class SerialPort {
     /* interface */
     void flush      (void);
     void write_data (uint8_t* data, size_t length);
-    int read_data   (uint8_t *data, size_t length);
+    int  read_data  (uint8_t *data, size_t length);
+    bool open_port  (void);
 
     private:
-    void open_port      (void);
     void close_port     (void);
     void configure_port (void);
 

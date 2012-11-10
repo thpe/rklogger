@@ -97,6 +97,12 @@ int main (int argc, char** argv)
     {
     RK::Config config (device);
     RK::SerialPort port (config);
+    for (size_t i = 0; i < 5; ++i) {
+        if (port.open_port()) {
+            break;
+        }
+        sleep (2);
+    }
 
     RK::ComLynx::Protocol protocol (port);
 
