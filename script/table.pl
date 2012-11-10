@@ -54,7 +54,7 @@ while (1) {
     }
     ($second, $minute, $hour, $dayOfMonth, $month, $yearOffset, $dayOfWeek, $dayOfYear, $daylightSavings) = localtime();
     $yearOffset += 1900;
-    printf "<TH align=\"right\"> %d/%02d/%02d %d:%02d</TH>", $yearOffset, $month, $dayOfMonth, $hour, $minute;
+    printf "<TR><TH align=\"right\"> %d/%02d/%02d %d:%02d</TH>", $yearOffset, $month, $dayOfMonth, $hour, $minute;
     my $val = `$rklogger $net $sub 1e 14 8`;
     print "<TH align=\"right\"> $hardware_type_ids[$val]</TH>";
 
@@ -68,12 +68,8 @@ while (1) {
     printf("<TH align=\"right\"> %.1fkWh</TH>", $val/1000.0);
 
     $val = `$rklogger $net $sub a 2 8`;
-    my $r = (tlx_op_mode_id($val) == 4) or 
-            (tlx_op_mode_id($val) == 1) or 
-            (tlx_op_mode_id($val) == 2) ? 0xFF : 0;
-    my $g = (tlx_op_mode_id($val) == 3) or
-            (tlx_op_mode_id($val) == 1) or
-            (tlx_op_mode_id($val) == 2) ? 0xFF : 0;
-    my $b = (tlx_op_mode_id($val) == 0) ? 0xFF : 0;
+    my $r = ((tlx_op_mode_id($val) == 4) or (tlx_op_mode_id($val) == 1) or (tlx_op_mode_id($val) == 2)) ? 255 : 0;
+    my $g = ((tlx_op_mode_id($val) == 3) or (tlx_op_mode_id($val) == 1) or (tlx_op_mode_id($val) == 2)) ? 255 : 0;
+    my $b = (tlx_op_mode_id($val) == 0) ? 255 : 0;
     printf "<TH bgcolor=\"#%.2X%.2X%.2X\">%s</TH></TR>\n", $r,$g,$b, $tlx_op_modes[tlx_op_mode_id($val)];
 }
