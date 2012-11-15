@@ -1,4 +1,22 @@
 #!/usr/bin/perl
+# Copyright 2012 Thomas Petig
+#
+# This file is part of rklogger.
+#
+# rklogger is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# rklogger is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with rklogger.  If not, see <http://www.gnu.org/licenses/>.
+
+
 use FindBin;
 
 my $rklogger = "$FindBin::Bin/../src/bin/rklogger";
@@ -54,6 +72,11 @@ while (1) {
         last;
     }
     print $yearOffset-1;
+    {
+    my $val  = sprintf "%x ",51;
+    my $res = `$rklogger $net $sub 78 $val 8`;
+    print ",$res";
+    }
     for (my $i = 31; $i <= 42-12+$month+1; ++$i) {
         print ",0";
     }
@@ -64,6 +87,11 @@ while (1) {
     }
     print "\n";
     print $yearOffset;
+    {
+    my $val  = sprintf "%x ",50;
+    my $res = `$rklogger $net $sub 78 $val 8`;
+    print ",$res";
+    }
     for (my $i = 31; $i <= 42-12+$month+1; ++$i) {
         my $val  = sprintf "%x ", $i;
         my $res = `$rklogger $net $sub 78 $val 8`;
