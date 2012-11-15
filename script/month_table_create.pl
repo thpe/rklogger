@@ -54,6 +54,11 @@ while (1) {
         last;
     }
     print $yearOffset-1;
+    {
+    my $val  = sprintf "%x ",51;
+    my $res = `$rklogger $net $sub 78 $val 8`;
+    print ",$res";
+    }
     for (my $i = 31; $i <= 42-12+$month+1; ++$i) {
         print ",0";
     }
@@ -64,6 +69,11 @@ while (1) {
     }
     print "\n";
     print $yearOffset;
+    {
+    my $val  = sprintf "%x ",50;
+    my $res = `$rklogger $net $sub 78 $val 8`;
+    print ",$res";
+    }
     for (my $i = 31; $i <= 42-12+$month+1; ++$i) {
         my $val  = sprintf "%x ", $i;
         my $res = `$rklogger $net $sub 78 $val 8`;
