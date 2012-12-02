@@ -49,14 +49,29 @@ while (<>) {
                 print ",$res";
             }
             my $i;
-            for ($i = 2; $i < @columns; ++$i) {
-                if ($i != $month+1) {
-                    print ",$columns[$i]";
-                } else {
+            if (@columns == $month+2) {
+                for ($i = 2; $i < @columns-1; ++$i) {
+                        print ",$columns[$i]";
+                }
+                {
                     my $val  = sprintf "%x ", 30;
                     my $res = `$rklogger $net $sub 78 $val 8`;
                     print ",$res";
                 }
+            } elsif (@columns == $month + 1) {
+                for ($i = 2; $i < @columns-1; ++$i) {
+                        print ",$columns[$i]";
+                }
+                {
+                    my $val  = sprintf "%x ", 31+(($month-2)%13);
+                    my $res = `$rklogger $net $sub 78 $val 8`;
+                    print ",$res";
+                    $val  = sprintf "%x ", 30;
+                    $res = `$rklogger $net $sub 78 $val 8`;
+                    print ",$res";
+                }
+            } else {
+                die "Data file broken";
             }
         }
     } else {
