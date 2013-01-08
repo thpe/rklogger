@@ -32,7 +32,7 @@ $year += 1900;
 my $net = shift @ARGV;
 my $sub = shift @ARGV;
 my @buffer;
-my $year_found;
+my $year_found = 0;
 while (<>) {
     if ($csv->parse($_)) {
         my @columns = $csv->fields();
@@ -77,6 +77,22 @@ while (<>) {
     } else {
         my $err = $csv->error_input;
         print "Failed to parse line: $err";
+    }
+}
+if ($year_found == 0) {
+    if ($month != 1) {
+        die "Data file broken";
+    }
+    print   "\n$year";
+    {
+        my $val  = sprintf "%x ",50;
+        my $res = `$rklogger $net $sub 78 $val 8`;
+        print ",$res";
+    }
+    {
+        my $val  = sprintf "%x ", 30;
+        my $res = `$rklogger $net $sub 78 $val 8`;
+        print ",$res";
     }
 }
 print "\n";
