@@ -78,38 +78,5 @@ while (<>) {
         my $err = $csv->error_input;
         print "Failed to parse line: $err";
     }
-
-#    $net = shift @ARGV;
-#    $sub = shift @ARGV;
-#    if (not defined $sub) {
-#        last;
-#    }
-#    print $yearOffset-1;
-#    {
-#    my $val  = sprintf "%x ",51;
-#    my $res = `$rklogger $net $sub 78 $val 8`;
-#    print ",$res";
-#    }
-#    for (my $i = 31; $i <= 42-12+$month+1; ++$i) {
-#        print ",0";
-#    }
-#    for (my $i = 31+$month+1; $i <= 42; ++$i) {
-#        my $val  = sprintf "%x ", $i;
-#        my $res = `$rklogger $net $sub 78 $val 8`;
-#        print ",$res";
-#    }
-#    print "\n";
-#    print $yearOffset;
-#    {
-#    my $val  = sprintf "%x ",50;
-#    my $res = `$rklogger $net $sub 78 $val 8`;
-#    print ",$res";
-#    }
-#    for (my $i = 31; $i <= 42-12+$month+1; ++$i) {
-#        my $val  = sprintf "%x ", $i;
-#        my $res = `$rklogger $net $sub 78 $val 8`;
-#        print ",$res";
-#    }
-#    print "\n";
 }
 print "\n";
