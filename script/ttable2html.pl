@@ -22,6 +22,9 @@ use Text::CSV;
 use FindBin;
 use Scalar::Util qw(looks_like_number);
 
+my ($second, $minute, $hour, $dayOfMonth, $month, $act_year, $dayOfWeek, $dayOfYear, $daylightSavings) = localtime();
+$act_year += 1900;
+
 my $csv = Text::CSV->new();
 my $line = <>;
 $csv->parse($line);
@@ -37,6 +40,10 @@ while (<>) {
         my @columns = $csv->fields();
         print "<TR>";
         print "<TH>$year</TH>";
+        my $max_month = 12;
+        if ($year == $act_year) {
+            $max_month = $#columns;
+        }
         ++$year;
         my $tot_prod = 0;
         if (looks_like_number($columns[-1])) {
@@ -45,7 +52,7 @@ while (<>) {
         }
         print "<TH>$tot_prod</TH>";
 
-        for (my $i = 0; $i < 12; ++$i) {
+        for (my $i = 0; $i < $max_month; ++$i) {
             my $val = $columns[$i];
             if (!looks_like_number($val)) {
                 $val = $last;
