@@ -38,7 +38,6 @@ $year += 1900;
 my $line = <>;
 $csv->parse($line);
 my @columns = $csv->fields();
-print "net = $columns[0], sub = $columns[1]\n";
 
 my $net = $columns[0];
 my $sub = $columns[1];
