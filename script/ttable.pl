@@ -35,6 +35,9 @@ my $csv = Text::CSV->new();
 my ($second, $minute, $hour, $dayOfMonth, $month, $year, $dayOfWeek, $dayOfYear, $daylightSavings) = localtime();
 $year += 1900;
 
+my $filename = $ARGV[0];
+
+open FILE, ">$filename.new" or die $!;
 my $line = <>;
 $csv->parse($line);
 my @columns = $csv->fields();
@@ -44,23 +47,29 @@ my $sub = $columns[1];
 my $start_year = $columns[2];
 
 while (<>) {
-    print $line;
+    print FILE $line;
     $line = $_;
     ++$start_year;
 }
-
-for (my $i = $start_year; $i < $year; ++$i) {
-    print "\n";
-    $line = "";
+for (; $start_year <= $year; ++$start_year) {
+    print FILE $line;
+    $line = "\n";
 }
-
 $csv->parse($line);
 @columns = $csv->fields();
 my $res =`$rklogger $net $sub 1 2 8`;
-if ((looks_like_number($res)) and 
-    ((!defined $columns[$month]) or ($res > $columns[$month]))) {
-    $columns[$month] = $res;
+if (looks_like_number($res)) {
+    if (looks_like_number($columns[$month])) {
+        if ($res > $columns[$month]) {
+            $columns[$month] = $res;
+        }
+    } else {
+        $columns[$month] = $res;
+    }
 }
-
 $csv->combine(@columns);
-print $csv->string();
+print FILE $csv->string();
+
+close FILE;
+system "rm $filename";
+system "mv $filename.new $filename";
