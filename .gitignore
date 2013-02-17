@@ -5,3 +5,4 @@ tags
 Makefile
 CMakeCache.txt
 CMakeFiles/
+.*.swp
