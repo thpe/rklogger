@@ -42,7 +42,7 @@ while (<>) {
         print "<TH>$year</TH>";
         my $max_month = 12;
         if ($year == $act_year) {
-            $max_month = $#columns;
+            $max_month = @columns;
         }
         ++$year;
         my $tot_prod = 0;
@@ -55,9 +55,10 @@ while (<>) {
         for (my $i = 0; $i < $max_month; ++$i) {
             my $val = $columns[$i];
             if (!looks_like_number($val)) {
-                $val = $last;
+                $val = 0;
             } else {
-                $last = $val;
+                $val -= $last;
+                $last = $columns[$i];
             }
             print "<TH>$val</TH>";
         }
