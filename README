@@ -43,6 +43,9 @@ this path.
 To read a parameter:
 ./rklogger <network> <node> <param_idx> <param_subidx> <param_modulidx>
 
+To scan the network:
+./rklogger -s
+
 To ping a inverter:
 ./rklogger <network> <node>
 
