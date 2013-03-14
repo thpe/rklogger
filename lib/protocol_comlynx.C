@@ -89,6 +89,35 @@ class Message {
 #endif
 
 bool
+Protocol::scan (void)
+{
+    bool found = false;
+    if (not ping(0xff,0xff)) {
+        return false;
+    }
+    for (uint16_t i = 0; i < 0xf; ++i) {
+        uint16_t net = (i<<4)|0xf;
+        if (not ping(net, 0xff)) {
+            continue;
+        }
+        for (uint16_t k = 0; k < 0xf; ++k) {
+            net = (i<<4)|k;
+            if (not ping(net, 0xff)) {
+                continue;
+            }
+            for (uint16_t j = 0; j < 0xff; ++j) {
+                if (ping(net,j)) {
+                    std::cout << "found node: " << std::hex <<  net << " " << j
+                        << std::endl << std::dec;
+                    found = true;
+                }
+            }
+        }
+    }
+    return found;
+}
+
+bool
 Protocol::ping (uint8_t network, uint8_t address)
 {
     uint8_t msg[maxmsgsize];
@@ -105,18 +134,9 @@ Protocol::ping (uint8_t network, uint8_t address)
 //    _port.flush();
     _port.write_data(buf, length);
     int ret = _port.read_data(buf, maxmsgsize*2);
-    ret = unstuff (buf, msg, ret);
-    std::cout << ret << "ret\n";
+//    ret = unstuff (buf, msg, ret);
 
-
-    if (ret > 12) {
-//        uint8_t* ptr = NULL;
-//        get_msg_frame (msg, ret, ptr);
-        return true;
-    }
-
-
-    return false;
+    return ret > 0;
 }
 
 bool
