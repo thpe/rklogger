@@ -49,10 +49,10 @@ int main (int argc, char** argv)
         boost::program_options::options_description desc("Allowed options");
         std::vector< std::string > string_parm ;
         desc.add_options()
-            ("help,h", "produce help message")
+            ("help,h",   "produce help message")
             ("device,d", boost::program_options::value<std::string>(&device)->default_value(SERIAL_DEVICE), "change the communication device")
-            ("scan,s", "perform a network scan")
-            ("param", boost::program_options::value< std::vector<std::string> >(&string_parm), "<network> <node> <param_idx> <param_subidx> <param_modulidx>")
+            ("scan,s",   "perform a network scan")
+            ("param",    boost::program_options::value< std::vector<std::string> >(&string_parm), "<network> <node> <param_idx> <param_subidx> <param_modulidx>")
         ;
 
 
@@ -97,6 +97,7 @@ int main (int argc, char** argv)
     size_t num_parm = parameter.size();
     if (num_parm != 5 and num_parm != 2 and not scan) {
         std::cerr << "Invalid number of arguments (should be 2 or 5): " << num_parm << std::endl;
+        std::cerr << "Type '" << argv[0] << " --help' to get more information." << std::endl;
         exit(EXIT_FAILURE);
     }
 
