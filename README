@@ -38,7 +38,8 @@ You find the binary in
 ./src/bin
 
 Go into this directory for the following examples, or call the binary from
-this path.
+this path. All numerical parameters are given as hexadecimal number without
+prefix, e.g., 4e, 13, or d4.
 
 To read a parameter:
 ./rklogger <network> <node> <param_idx> <param_subidx> <param_modulidx>
