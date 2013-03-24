@@ -68,11 +68,14 @@ void find (void)
 
 void SerialPort::write_data (uint8_t* data, size_t length)
 {
+#if DEBUG
+    /* here shouldn't be any protocol dependend information */
     for (size_t i = 1; i < length-1; ++i) {
         if (data[i] == 0x7E) {
             printf("data not stuffed\n");
         }
     }
+#endif
 
 
     int ret = 0;
