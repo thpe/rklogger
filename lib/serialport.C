@@ -88,15 +88,22 @@ void SerialPort::write_data (uint8_t* data, size_t length)
     FD_ZERO (&rfds);
     FD_SET  (_port, &rfds);
     int sel = select (_port+1, &rfds, NULL, NULL, &timeout);
-    if (sel == -1)
+    if (sel == -1) {
         perror("select()");
-    else if (sel > 0) {
+    } else if (sel > 0) {
         /* Collision detection could be done here */
         char buf;
         read (_port, &buf, 1);
         for (size_t i = 1; i < length; ++i) {
             ret += write (_port, data+i, 1);
+            sel = select (_port+1, &rfds, NULL, NULL, &timeout);
             read (_port, &buf, 1);
+            if (buf !=  data[i]) {
+                std::cerr << "RK::SerialPort::write_data: collision at byte "
+                          << i << " detected (send: " << data[i]
+                               << ", received: "      << buf     << ")"
+                          << std::endl;
+            }
         }
     } else {
         ret += write (_port, data+1, length-1);
