@@ -23,6 +23,7 @@
 #include <cstdio>
 #include <cstdlib>
 extern "C" {
+#include <unistd.h>
 #include <fcntl.h>
 #include <termios.h>
 #include <sys/ioctl.h>
