@@ -51,7 +51,7 @@ while (<>) {
     $line = $_;
     ++$start_year;
 }
-for (; $start_year <= $year; ++$start_year) {
+for (; $start_year <= $year+1; ++$start_year) {
     print FILE $line;
     $line = "\n";
 }
