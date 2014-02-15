@@ -50,7 +50,7 @@ while (<>) {
             $tot_prod = $columns[-1] - $last_prod;
             $last_prod = $columns[-1];
         }
-        print "<TH>$tot_prod</TH>";
+        print "<TD>$tot_prod</TD>";
 
         for (my $i = 0; $i < $max_month; ++$i) {
             my $val = $columns[$i];
@@ -60,7 +60,7 @@ while (<>) {
                 $val -= $last;
                 $last = $columns[$i];
             }
-            print "<TH>$val</TH>";
+            print "<TD>$val</TD>";
         }
         print "<TR>\n";
     } else {
