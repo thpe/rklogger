@@ -36,6 +36,7 @@ class Protocol {
     {
     }
 
+    bool scan             (void);
     bool ping             (uint8_t network, uint8_t address);
     bool node_information (uint8_t network, uint8_t address);
     bool embedded_can     (uint8_t network, uint8_t address,

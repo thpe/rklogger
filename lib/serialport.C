@@ -23,6 +23,7 @@
 #include <cstdio>
 #include <cstdlib>
 extern "C" {
+#include <unistd.h>
 #include <fcntl.h>
 #include <termios.h>
 #include <sys/ioctl.h>
@@ -68,14 +69,46 @@ void find (void)
 
 void SerialPort::write_data (uint8_t* data, size_t length)
 {
+#if DEBUG
+    /* here shouldn't be any protocol dependend information */
     for (size_t i = 1; i < length-1; ++i) {
         if (data[i] == 0x7E) {
             printf("data not stuffed\n");
         }
     }
+#endif
+
 
     int ret = 0;
-    ret = write (_port, data, length);
+
+    ret += write (_port, data, 1);
+    struct timeval timeout;
+    timeout.tv_sec  = 0;
+    timeout.tv_usec = 1000; //TODO: Correct?
+    fd_set  rfds;
+    FD_ZERO (&rfds);
+    FD_SET  (_port, &rfds);
+    int sel = select (_port+1, &rfds, NULL, NULL, &timeout);
+    if (sel == -1) {
+        perror("select()");
+    } else if (sel > 0) {
+        /* Collision detection could be done here */
+        char buf;
+        read (_port, &buf, 1);
+        for (size_t i = 1; i < length; ++i) {
+            ret += write (_port, data+i, 1);
+            sel = select (_port+1, &rfds, NULL, NULL, &timeout);
+            read (_port, &buf, 1);
+            if (buf !=  data[i]) {
+                std::cerr << "RK::SerialPort::write_data: collision at byte "
+                          << i << " detected (send: " << data[i]
+                               << ", received: "      << buf     << ")"
+                          << std::endl;
+            }
+        }
+    } else {
+        ret += write (_port, data+1, length-1);
+    }
     if (ret < 0) {
         perror("RK::SerialPort::write_data");
     }
@@ -92,10 +125,10 @@ int SerialPort::read_data (uint8_t *data, size_t length)
     int cnt =0;// read  (_port, data, length);
 
     int ret = 1;
+    struct timeval timeout;
+    timeout.tv_sec  = 0;
+    timeout.tv_usec = 60000;
     while (ret > 0) {
-        struct timeval timeout;
-        timeout.tv_sec  = 0;
-        timeout.tv_usec = 60000;
         fd_set  rfds;
         FD_ZERO (&rfds);
         FD_SET  (_port, &rfds);
@@ -107,6 +140,7 @@ int SerialPort::read_data (uint8_t *data, size_t length)
         ** */
             cnt += read (_port, data+cnt, length);
         }
+        timeout.tv_usec = 6000;
     }
 
 #if DEBUG
