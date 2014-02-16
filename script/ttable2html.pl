@@ -39,7 +39,7 @@ while (<>) {
     if ($csv->parse($_)) {
         my @columns = $csv->fields();
         print "<TR>";
-        print "<TH>$year</TH>";
+        print "<TD>$year</TD>";
         my $max_month = 12;
         if ($year == $act_year) {
             $max_month = @columns;
@@ -50,7 +50,8 @@ while (<>) {
             $tot_prod = $columns[-1] - $last_prod;
             $last_prod = $columns[-1];
         }
-        print "<TD>$tot_prod</TD>";
+	my $local_prod = $tot_prod/1000.0;
+        printf "<TD ALIGN=\"right\">%.0f</TD>", $local_prod;
 
         for (my $i = 0; $i < $max_month; ++$i) {
             my $val = $columns[$i];
@@ -60,7 +61,8 @@ while (<>) {
                 $val -= $last;
                 $last = $columns[$i];
             }
-            print "<TD>$val</TD>";
+			my $local_val = $val/1000.0;
+            printf "<TD ALIGN=\"right\">%.0f</TD>", $local_val;
         }
         print "<TR>\n";
     } else {
