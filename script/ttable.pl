@@ -51,9 +51,9 @@ while (<>) {
     $line = $_;
     ++$start_year;
 }
-for (; $start_year <= $year+1; ++$start_year) {
-    print FILE $line;
-    $line = "\n";
+for (; $start_year <= $year; ++$start_year) {
+    print FILE $line."\n";
+    $line = "";
 }
 $csv->parse($line);
 @columns = $csv->fields();
