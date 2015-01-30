@@ -24,6 +24,8 @@ link_directories(${Boost_LIBRARY_DIR})
 add_subdirectory(lib)
 add_subdirectory(src)
 INSTALL(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/src/rklogger DESTINATION bin)
+add_subdirectory(doc)
+INSTALL(DIRECTORY ${CMAKE_BINARY_DIR}/doc/man/ DESTINATION man)
 
 set(CPACK_PACKAGE_VERSION_MAJOR "0")
 set(CPACK_PACKAGE_VERSION_MINOR "1")
