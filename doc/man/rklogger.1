@@ -1,0 +1,46 @@
+.TH rklogger 1 2015-01-30 "rklogger 1.1"
+.SH NAME
+rklogger \- Accessing solar inverter via  ComLynx protocol
+.SH SYNOPSIS
+.B rklogger 
+.I network 
+.I node
+.LP
+.B rklogger 
+.I network 
+.I node 
+.I param_idx 
+.I param_subidx 
+.I param_modulidx
+.LP
+.B rklogger \-s
+.SH DESCRIPTION
+.SH OPTIONS
+.TP
+.I network
+The id of the network
+.TP
+.I node
+The id of the node
+.SS Requesting a parameter.
+.TP
+.I param_idx
+The index for the parameter that is requested.
+.TP
+.I param_subidx
+The subindex for the parameter that is requested.
+.TP
+.I param_modulidx
+The modul index for the parameter that is requested.
+.SS Scanning the network.
+.TP
+.B \-s
+Initiate a network scan. 
+.SH BUGS
+The current release cannot handle EIA-485 interfaces mirror send characters
+back to the receiver.
+.SH AUTHOR
+Written by Thomas Petig.
+.SH COPYRIGHT
+Copyright (C) 2015 Thomas Petig
+License GPLv3+
