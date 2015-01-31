@@ -1,21 +1,40 @@
 .TH rklogger 1 2015-01-30 "rklogger 1.1"
 .SH NAME
-rklogger \- Accessing solar inverter via  ComLynx protocol
+rklogger \- Command line tool for reading solar inverter parameters via the ComLynx protocol
 .SH SYNOPSIS
 .B rklogger 
+.RB [\| \-D
+.IR device \|]
 .I network 
 .I node
 .LP
 .B rklogger 
+.RB [\| \-D
+.IR device \|]
 .I network 
 .I node 
 .I param_idx 
 .I param_subidx 
 .I param_modulidx
 .LP
-.B rklogger \-s
+.B rklogger
+.RB [\| \-D
+.IR device \|]
+.B \-s
 .SH DESCRIPTION
+rklogger is a command line tool to read parameters from a ComLynx enabled solar
+inverter. It requires the inverter to be accessible via a serial line
+interface, e.g., a USB to EIA\-485 converter on
+.IR /dev/ttyUSB0 .
 .SH OPTIONS
+.SS General options
+.TP
+.BI \-D \ device
+Use 
+.I device
+instead of the default device 
+.IR /dev/ttyUSB0 .
+.SS Inverter address 
 .TP
 .I network
 The id of the network
@@ -37,8 +56,8 @@ The modul index for the parameter that is requested.
 .B \-s
 Initiate a network scan. 
 .SH BUGS
-The current release cannot handle EIA-485 interfaces mirror send characters
-back to the receiver.
+The current release cannot handle EIA\-485 interfaces mirror characters that
+are send back to the receiver.
 .SH AUTHOR
 Written by Thomas Petig.
 .SH COPYRIGHT
