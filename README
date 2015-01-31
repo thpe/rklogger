@@ -1,4 +1,4 @@
-Copyright 2012 Thomas Petig <thomas@petig.eu>
+Copyright 2012-2015 Thomas Petig <thomas@petig.eu>
 Danfoss, TripleLynx, TLX, UniLynx, ULX and ComLynx are trademarks of Danfoss
 
 
@@ -19,8 +19,9 @@ libboost-program-options-dev
 are required.
 
 Please type within the project root directory:
-
-cmake .
+mkdir build
+cd build
+cmake ..
 make
 
 to build the project. Type 
@@ -29,29 +30,26 @@ cmake -DCMAKE_BUILD_TYPE=Debug .
 make
 
 if you want to compile with additional debug output.
+For the installation type:
+make install
 
-
-
-Usage:
-
-You find the binary in 
-./src/bin
+Usage (for more details see the installed manpage):
 
 Go into this directory for the following examples, or call the binary from
 this path. All numerical parameters are given as hexadecimal number without
 prefix, e.g., 4e, 13, or d4.
 
 To read a parameter:
-./rklogger <network> <node> <param_idx> <param_subidx> <param_modulidx>
+rklogger <network> <node> <param_idx> <param_subidx> <param_modulidx>
 
 To scan the network:
-./rklogger -s
+rklogger -s
 
 To ping a inverter:
-./rklogger <network> <node>
+rklogger <network> <node>
 
 To get information on additional parameters:
-./rklogger --help
+rklogger --help
 
 For details regarding param_idx, param_subidx and param_modulidx please refer
 to the ComLynx protocol specification provided by Danfoss.
