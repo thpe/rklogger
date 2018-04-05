@@ -84,7 +84,7 @@ void SerialPort::write_data (uint8_t* data, size_t length)
     ret += write (_port, data, 1);
     struct timeval timeout;
     timeout.tv_sec  = 0;
-    timeout.tv_usec = 1000; //TODO: Correct?
+    timeout.tv_usec = 5000; //TODO: Correct?
     fd_set  rfds;
     FD_ZERO (&rfds);
     FD_SET  (_port, &rfds);
@@ -140,7 +140,7 @@ int SerialPort::read_data (uint8_t *data, size_t length)
         ** */
             cnt += read (_port, data+cnt, length);
         }
-        timeout.tv_usec = 6000;
+        timeout.tv_usec = 30000;
     }
 
 #if DEBUG
