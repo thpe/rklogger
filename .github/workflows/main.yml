@@ -13,6 +13,7 @@ jobs:
       run: echo Hello, world!
     - name: Run a multi-line script
       run: |
+        apt install libboost-all-dev
         mkdir build
         cd build
         cmake ..
