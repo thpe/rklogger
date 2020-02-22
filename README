@@ -1,4 +1,6 @@
-Copyright 2012-2015 Thomas Petig <thomas@petig.eu>
+![CI](https:://github.com/thpe/rklogger/workflows/CI/badge.svg)
+
+Copyright 2012-2020 Thomas Petig <thomas@petig.eu>
 Danfoss, TripleLynx, TLX, UniLynx, ULX and ComLynx are trademarks of Danfoss
 
 
@@ -6,7 +8,7 @@ Introduction:
 
 rklogger is a command line program for reading the parameters out of Danfoss
 inverters. This project is licensed under the GPLv3. It is tested with TLX and
-ULX inverters together with Debian stable (x86, 32Bit).
+ULX inverters together with Debian stable (x86 and amd64).
 
 
 Build:
@@ -19,6 +21,8 @@ libboost-program-options-dev
 are required.
 
 Please type within the project root directory:
+git clone https://www.github.com/thpe/rklogger.git
+cd rklogger
 mkdir build
 cd build
 cmake ..
