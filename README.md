@@ -3,7 +3,7 @@ rklogger
 Copyright 2012-2020 Thomas Petig <thomas@petig.eu>
 Danfoss, TripleLynx, TLX, UniLynx, ULX and ComLynx are trademarks of Danfoss
 
-![CI](https:://github.com/thpe/rklogger/workflows/CI/badge.svg)
+![CI](https://github.com/thpe/rklogger/workflows/CI/badge.svg)
 
 Introduction:
 ============
