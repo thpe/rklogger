@@ -41,7 +41,14 @@ make
 
 if you want to compile with additional debug output.
 For the installation type:
+```
 make install
+```
+or
+```
+sudo make install
+```
+depending of the permissions of you current user.
 
 Usage (for more details see the installed manpage):
 ==================================================
