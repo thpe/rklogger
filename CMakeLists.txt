@@ -16,7 +16,7 @@ ENDIF()
 #SET(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "/usr/include/boost/lib")
 
 project(rklogger CXX)
-add_definitions(-Weffc++ -Wextra -Wall -pedantic)
+add_definitions(-Wextra -Wall -pedantic)
 FIND_PACKAGE(Boost 1.42 COMPONENTS program_options REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 include_directories(lib)
