@@ -1,9 +1,11 @@
 rklogger
 ========
-Copyright 2012-2020 Thomas Petig <thomas@petig.eu>
+Copyright 2012-2020 Thomas Petig <foss@petig.eu>
 Danfoss, TripleLynx, TLX, UniLynx, ULX and ComLynx are trademarks of Danfoss
 
 ![CI](https://github.com/thpe/rklogger/workflows/CI/badge.svg)
+
+Please use the github issue tracker for bug reports and feature requests.
 
 Introduction:
 ============
@@ -17,10 +19,10 @@ Build:
 ======
 
 Recent versions of:
- * cmake, 
+ * cmake,
  * make,
  * g++ and
- * libboost-program-options-dev 
+ * libboost-program-options-dev
 are required.
 
 Please type within the project root directory:
@@ -33,7 +35,7 @@ cmake ..
 make
 ```
 
-to build the project. Type 
+to build the project. Type
 ```
 cmake -DCMAKE_BUILD_TYPE=Debug .
 make
