@@ -45,6 +45,7 @@ int main (int argc, char** argv)
     std::vector< int >  parameter;
     bool                scan = false;
     bool                linefeed = false;
+    int                 okay = true;
 
     try {
         boost::program_options::options_description desc("Allowed options");
@@ -119,18 +120,13 @@ int main (int argc, char** argv)
     RK::ComLynx::Protocol protocol (port);
 
     if (scan) {
-        return protocol.scan();
+        okay = protocol.scan();
     }
 
     if (num_parm == 2) {
-       if (not protocol.ping (parameter[0], parameter[1])) {
-           if (linefeed) {
-              std::cout << std::endl;
-           }
-           exit(EXIT_FAILURE);
-       }
+       okay = protocol.ping (parameter[0], parameter[1]);
     } else if (num_parm == 5) {
-       return protocol.embedded_can (parameter[0],
+       okay = protocol.embedded_can (parameter[0],
                                      parameter[1],
                                      parameter[2],
                                      parameter[3],
@@ -140,6 +136,9 @@ int main (int argc, char** argv)
 
     if (linefeed) {
         std::cout << std::endl;
+    }
+    if (not okay) {
+        exit(EXIT_FAILURE);
     }
     exit (EXIT_SUCCESS);
 }
