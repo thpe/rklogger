@@ -28,7 +28,7 @@ if (@ARGV != 1) {
     exit;
 }
 
-my $rklogger = "$FindBin::Bin/../src/bin/rklogger";
+my $rklogger = "$FindBin::Bin/../build/src/rklogger -d /dev/ttyUSBDanfoss";
 
 my $csv = Text::CSV->new();
 
