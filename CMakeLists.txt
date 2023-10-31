@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8.12)
 #
 # If the user specifies -DCMAKE_BUILD_TYPE on the command line, take their definition
 # and dump it in the cache along with proper documentation, otherwise set CMAKE_BUILD_TYPE
@@ -16,7 +16,7 @@ ENDIF()
 #SET(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} "/usr/include/boost/lib")
 
 project(rklogger CXX)
-add_definitions(-Weffc++ -Wextra -Wall -pedantic)
+add_definitions(-Wextra -Wall -pedantic)
 FIND_PACKAGE(Boost 1.42 COMPONENTS program_options REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 include_directories(lib)

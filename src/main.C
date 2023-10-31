@@ -44,6 +44,8 @@ int main (int argc, char** argv)
     std::string         device(SERIAL_DEVICE);
     std::vector< int >  parameter;
     bool                scan = false;
+    bool                linefeed = false;
+    int                 okay = true;
 
     try {
         boost::program_options::options_description desc("Allowed options");
@@ -53,6 +55,7 @@ int main (int argc, char** argv)
             ("device,d", boost::program_options::value<std::string>(&device)->default_value(SERIAL_DEVICE), "change the communication device")
             ("scan,s",   "perform a network scan")
             ("param",    boost::program_options::value< std::vector<std::string> >(&string_parm), "<network> <node> <param_idx> <param_subidx> <param_modulidx>")
+            ("lf",   "add a line feed")
         ;
 
 
@@ -75,6 +78,9 @@ int main (int argc, char** argv)
         }
         if (vm.count("scan")) {
             scan = true;
+        }
+        if (vm.count("lf")) {
+            linefeed = true;
         }
         if (vm.count("param")) {
             for (size_t i = 0; i < string_parm.size(); ++i) {
@@ -114,15 +120,13 @@ int main (int argc, char** argv)
     RK::ComLynx::Protocol protocol (port);
 
     if (scan) {
-        return protocol.scan();
+        okay = protocol.scan();
     }
 
     if (num_parm == 2) {
-       if (not protocol.ping (parameter[0], parameter[1])) {
-           exit(EXIT_FAILURE);
-       }
+       okay = protocol.ping (parameter[0], parameter[1]);
     } else if (num_parm == 5) {
-       return protocol.embedded_can (parameter[0],
+       okay = protocol.embedded_can (parameter[0],
                                      parameter[1],
                                      parameter[2],
                                      parameter[3],
@@ -130,5 +134,11 @@ int main (int argc, char** argv)
     }
     }
 
+    if (linefeed) {
+        std::cout << std::endl;
+    }
+    if (not okay) {
+        exit(EXIT_FAILURE);
+    }
     exit (EXIT_SUCCESS);
 }

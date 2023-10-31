@@ -101,9 +101,9 @@ void SerialPort::write_data (uint8_t* data, size_t length)
             read (_port, &buf, 1);
             if (buf !=  data[i]) {
                 std::cerr << "RK::SerialPort::write_data: collision at byte "
-                          << i << " detected (send: " << data[i]
-                               << ", received: "      << buf     << ")"
-                          << std::endl;
+                          << i << " detected (send: " << std::hex  << data[i]
+                               << ", received: "      << std::hex  << buf     << ")"
+                          << std::dec << std::endl;
             }
         }
     } else {
