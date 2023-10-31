@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8.12)
 #
 # If the user specifies -DCMAKE_BUILD_TYPE on the command line, take their definition
 # and dump it in the cache along with proper documentation, otherwise set CMAKE_BUILD_TYPE
